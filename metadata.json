@@ -1,0 +1,6 @@
+{
+  "name": "Lumina Ecosystem",
+  "description": "Premium, intelligent Education + Career Growth ecosystem combining Learning, Mentorship, Jobs, Internships, Workshops, Scholarships, and AI Career Assistants.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
