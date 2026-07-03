@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
-import { 
-  Sparkles, ArrowRight, Star, BookOpen, UserCheck, Briefcase, Award, GraduationCap, 
-  ArrowUpRight, HelpCircle, ChevronDown, ChevronRight, Check, Play, Calendar, Users, 
-  DollarSign, ShieldAlert, LayoutGrid, Code, Anchor, PieChart, Umbrella, Heart, 
-  Palette, Layout, Smartphone, Box, TrendingUp, Layers, Megaphone, Gamepad2, 
+import {
+  Sparkles, ArrowRight, Star, BookOpen, UserCheck, Briefcase, Award, GraduationCap,
+  ArrowUpRight, HelpCircle, ChevronDown, ChevronRight, Check, Play, Calendar, Users,
+  DollarSign, ShieldAlert, LayoutGrid, Code, Anchor, PieChart, Umbrella, Heart,
+  Palette, Layout, Smartphone, Box, TrendingUp, Layers, Megaphone, Gamepad2,
   Compass, Binary, Cpu, MousePointerClick, Brush, Apple, Search
 } from "lucide-react";
 import { motion } from "motion/react";
@@ -220,11 +220,10 @@ export default function LandingPage({ onEnterApp, onViewCaseStudy }: LandingPage
                     setActiveCategory(mainCategories[0]);
                   }
                 }}
-                className={`px-3 py-1.5 rounded-xl border text-xs font-semibold flex items-center gap-1.5 cursor-pointer transition-all shadow-sm ${
-                  isCategoriesOpen
-                    ? "bg-indigo-50 border-indigo-200 text-indigo-700"
-                    : "bg-white border-slate-200/80 hover:bg-slate-50 text-slate-700"
-                }`}
+                className={`px-3 py-1.5 rounded-xl border text-xs font-semibold flex items-center gap-1.5 cursor-pointer transition-all shadow-sm ${isCategoriesOpen
+                  ? "bg-indigo-50 border-indigo-200 text-indigo-700"
+                  : "bg-white border-slate-200/80 hover:bg-slate-50 text-slate-700"
+                  }`}
               >
                 <LayoutGrid className="w-3.5 h-3.5 text-slate-500" />
                 <span>Categories</span>
@@ -252,11 +251,10 @@ export default function LandingPage({ onEnterApp, onViewCaseStudy }: LandingPage
                         onClick={() => {
                           handleCategorySelect(cat.id);
                         }}
-                        className={`w-full px-3 py-2.5 rounded-xl flex items-center justify-between text-xs font-medium transition-colors cursor-pointer ${
-                          isHovered
-                            ? "bg-indigo-50 text-indigo-700"
-                            : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-                        }`}
+                        className={`w-full px-3 py-2.5 rounded-xl flex items-center justify-between text-xs font-medium transition-colors cursor-pointer ${isHovered
+                          ? "bg-indigo-50 text-indigo-700"
+                          : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                          }`}
                       >
                         <div className="flex items-center gap-2.5">
                           <CatIcon className={`w-4 h-4 ${isHovered ? "text-indigo-600" : "text-slate-400"}`} />
@@ -305,7 +303,7 @@ export default function LandingPage({ onEnterApp, onViewCaseStudy }: LandingPage
             <a href="#how-it-works" className="hover:text-indigo-600 transition-colors">How it Works</a>
             <a href="#pricing" className="hover:text-indigo-600 transition-colors">Pricing</a>
             <a href="#faq" className="hover:text-indigo-600 transition-colors">FAQ</a>
-            <span onClick={() => navigate("/blogs")} className="hover:text-indigo-600 transition-colors cursor-pointer">Blogs</span>
+            <a href="/blogs" className="hover:text-indigo-600 transition-colors">Blogs</a>
           </nav>
 
           <div className="flex items-center gap-3">
@@ -460,31 +458,28 @@ export default function LandingPage({ onEnterApp, onViewCaseStudy }: LandingPage
                 <div className="flex flex-wrap gap-2">
                   <button
                     onClick={() => handleAiSimulate("Product Designer")}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors cursor-pointer ${
-                      aiSkill === "Product Designer"
-                        ? "bg-indigo-55 text-indigo-700 border-indigo-300 bg-indigo-50"
-                        : "bg-slate-50 text-slate-600 border-slate-200 hover:text-slate-800 hover:border-slate-350"
-                    }`}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors cursor-pointer ${aiSkill === "Product Designer"
+                      ? "bg-indigo-55 text-indigo-700 border-indigo-300 bg-indigo-50"
+                      : "bg-slate-50 text-slate-600 border-slate-200 hover:text-slate-800 hover:border-slate-350"
+                      }`}
                   >
                     Product Designer
                   </button>
                   <button
                     onClick={() => handleAiSimulate("Frontend Engineer")}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors cursor-pointer ${
-                      aiSkill === "Frontend Engineer"
-                        ? "bg-indigo-55 text-indigo-700 border-indigo-300 bg-indigo-50"
-                        : "bg-slate-50 text-slate-600 border-slate-200 hover:text-slate-800 hover:border-slate-350"
-                    }`}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors cursor-pointer ${aiSkill === "Frontend Engineer"
+                      ? "bg-indigo-55 text-indigo-700 border-indigo-300 bg-indigo-50"
+                      : "bg-slate-50 text-slate-600 border-slate-200 hover:text-slate-800 hover:border-slate-350"
+                      }`}
                   >
                     Frontend Engineer
                   </button>
                   <button
                     onClick={() => handleAiSimulate("Backend Engineer")}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors cursor-pointer ${
-                      aiSkill === "Backend Engineer"
-                        ? "bg-indigo-55 text-indigo-700 border-indigo-300 bg-indigo-50"
-                        : "bg-slate-50 text-slate-600 border-slate-200 hover:text-slate-800 hover:border-slate-350"
-                    }`}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors cursor-pointer ${aiSkill === "Backend Engineer"
+                      ? "bg-indigo-55 text-indigo-700 border-indigo-300 bg-indigo-50"
+                      : "bg-slate-50 text-slate-600 border-slate-200 hover:text-slate-800 hover:border-slate-350"
+                      }`}
                   >
                     Backend Architect
                   </button>
@@ -834,17 +829,15 @@ export default function LandingPage({ onEnterApp, onViewCaseStudy }: LandingPage
             <div className="inline-flex items-center gap-1.5 bg-slate-200/60 p-1 rounded-xl border border-slate-300 mx-auto mt-4">
               <button
                 onClick={() => setBillingPeriod("monthly")}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
-                  billingPeriod === "monthly" ? "bg-indigo-600 text-white shadow" : "text-slate-600 hover:text-slate-900"
-                }`}
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${billingPeriod === "monthly" ? "bg-indigo-600 text-white shadow" : "text-slate-600 hover:text-slate-900"
+                  }`}
               >
                 Monthly billing
               </button>
               <button
                 onClick={() => setBillingPeriod("yearly")}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
-                  billingPeriod === "yearly" ? "bg-indigo-600 text-white shadow" : "text-slate-600 hover:text-slate-900"
-                }`}
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${billingPeriod === "yearly" ? "bg-indigo-600 text-white shadow" : "text-slate-600 hover:text-slate-900"
+                  }`}
               >
                 Yearly billing (Save 20%)
               </button>
