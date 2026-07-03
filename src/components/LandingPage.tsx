@@ -303,7 +303,7 @@ export default function LandingPage({ onEnterApp, onViewCaseStudy }: LandingPage
             <a href="#how-it-works" className="hover:text-indigo-600 transition-colors">How it Works</a>
             <a href="#pricing" className="hover:text-indigo-600 transition-colors">Pricing</a>
             <a href="#faq" className="hover:text-indigo-600 transition-colors">FAQ</a>
-            <a href="/blogs" className="hover:text-indigo-600 transition-colors">Blogs</a>
+            {/* <a href="/blogs" className="hover:text-indigo-600 transition-colors">Blogs</a> */}
           </nav>
 
           <div className="flex items-center gap-3">
