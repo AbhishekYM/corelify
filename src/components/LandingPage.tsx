@@ -304,7 +304,6 @@ export default function LandingPage({ onEnterApp, onViewCaseStudy }: LandingPage
             <a href="#pricing" className="hover:text-indigo-600 transition-colors">Pricing</a>
             <a href="#faq" className="hover:text-indigo-600 transition-colors">FAQ</a>
             {/* <a href="/blogs" className="hover:text-indigo-600 transition-colors">Blogs</a> */}
-
             <span onClick={() => navigate("/blogs")} className="hover:text-indigo-600 transition-colors cursor-pointer">Blogs</span>
           </nav>
 

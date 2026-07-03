@@ -133,10 +133,12 @@ export default function AdminPanel({
       <div className="w-64 bg-slate-900 text-slate-300 flex flex-col shadow-2xl relative z-20">
         <div className="h-16 flex items-center px-6 border-b border-slate-800">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-indigo-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-              <LayoutDashboard className="w-4 h-4 text-white" />
-            </div>
-            <span className="font-bold text-white tracking-tight">Corelify <span className="text-indigo-400 font-mono text-[10px] uppercase ml-1">Admin</span></span>
+            <img
+              src="https://corelify.io/store/1/CORELIFY%20LOGO.png"
+              alt="Corelify Logo"
+              className="h-6 w-auto brightness-0 invert"
+            />
+            <span className="text-indigo-400 font-mono text-[9px] uppercase tracking-wider ml-1 border border-indigo-500/20 px-1.5 py-0.5 rounded bg-indigo-500/10 font-bold">Admin</span>
           </div>
         </div>
 
