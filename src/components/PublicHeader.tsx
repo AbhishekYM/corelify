@@ -270,6 +270,7 @@ export default function PublicHeader() {
               <span onClick={() => navigate("/instructors")} className={`hover:text-indigo-600 transition-colors py-5 cursor-pointer ${location.pathname === '/instructors' ? 'text-indigo-900 border-b-2 border-indigo-900' : ''}`}>Instructors</span>
               <span onClick={() => navigate("/store")} className={`hover:text-indigo-600 transition-colors py-5 cursor-pointer ${location.pathname === '/store' ? 'text-indigo-900 border-b-2 border-indigo-900' : ''}`}>Store</span>
               <span onClick={() => navigate("/forums")} className={`hover:text-indigo-600 transition-colors py-5 cursor-pointer ${location.pathname === '/forums' ? 'text-indigo-900 border-b-2 border-indigo-900' : ''}`}>Forums</span>
+              <span onClick={() => navigate("/blogs")} className={`hover:text-indigo-600 transition-colors py-5 cursor-pointer ${location.pathname === '/blogs' ? 'text-indigo-900 border-b-2 border-indigo-900' : ''}`}>Blogs</span>
             </nav>
           </div>
 

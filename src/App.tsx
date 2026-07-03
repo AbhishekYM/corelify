@@ -29,6 +29,7 @@ import CoursesPage from "./components/CoursesPage";
 import InstructorsPage from "./components/InstructorsPage";
 import StorePage from "./components/StorePage";
 import ForumsPage from "./components/ForumsPage";
+import BlogsPage from "./components/BlogsPage";
 import AuthFlow from "./components/AuthFlow";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
@@ -215,6 +216,12 @@ export default function App() {
           <Route path="/forums" element={!isCaseStudyActive ? (
             <motion.div key="forums-page" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
               <ForumsPage />
+            </motion.div>
+          ) : null} />
+
+          <Route path="/blogs" element={!isCaseStudyActive ? (
+            <motion.div key="blogs-page" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
+              <BlogsPage />
             </motion.div>
           ) : null} />
 
