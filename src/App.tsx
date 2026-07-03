@@ -218,10 +218,20 @@ export default function App() {
             </motion.div>
           ) : null} />
 
+          <Route path="/admin/login" element={!isCaseStudyActive ? (
+            <motion.div key="admin-login" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }} className="h-screen w-screen overflow-hidden">
+              {!currentAdmin ? (
+                <AdminLogin onLogin={(profile) => setCurrentAdmin(profile)} onBack={() => navigate("/")} />
+              ) : (
+                <Navigate to="/admin/dashboard" replace />
+              )}
+            </motion.div>
+          ) : null} />
+
           <Route path="/admin/:tab?" element={!isCaseStudyActive ? (
             <motion.div key="admin" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }} className="h-screen w-screen overflow-hidden">
               {!currentAdmin ? (
-                <AdminLogin onLogin={(profile) => setCurrentAdmin(profile)} onBack={() => navigate("/")} />
+                <Navigate to="/admin/login" replace />
               ) : (
                 <AdminPanel
                   currentAdmin={currentAdmin}
