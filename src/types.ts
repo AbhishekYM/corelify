@@ -161,6 +161,7 @@ export interface PortfolioProject {
 export interface UserProfile {
   fullName: string;
   email: string;
+  role?: string;
   headline: string;
   bio: string;
   avatar: string;
@@ -170,3 +171,35 @@ export interface UserProfile {
   experience: { role: string; company: string; duration: string }[];
   education: { degree: string; school: string; year: string }[];
 }
+
+export type AdminRole = "Admin" | "Instructor" | "Student" | "Employer" | "Institution";
+
+export interface AdminProfile {
+  fullName: string;
+  email: string;
+  role: AdminRole;
+  avatar: string;
+}
+
+export interface LiveClass {
+  id: string;
+  title: string;
+  instructor: string;
+  date: string;
+  time: string;
+  duration: string;
+  link?: string;
+  status: "Upcoming" | "Live" | "Completed";
+}
+
+export interface MentorProduct {
+  id: string;
+  title: string;
+  mentorId: string;
+  type: "E-book" | "Template" | "Guide" | "Video";
+  price: number;
+  image: string;
+  downloads: number;
+  description: string;
+}
+

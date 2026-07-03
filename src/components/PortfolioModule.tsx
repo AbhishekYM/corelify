@@ -59,12 +59,12 @@ export default function PortfolioModule({ userProfile, setUserProfile, onAddNoti
       title: newTitle,
       category: newCategory,
       image: newCategory === "Video & Presentation" 
-        ? "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=400&q=80"
+        ? "https://picsum.photos/seed/2hgu50u/800/600"
         : newCategory === "Research Paper"
-        ? "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=400&q=80"
+        ? "https://picsum.photos/seed/i48g1j8/800/600"
         : newCategory === "Certificate & Award"
-        ? "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=400&q=80"
-        : "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=400&q=80",
+        ? "https://picsum.photos/seed/901omr4/800/600"
+        : "https://picsum.photos/seed/m6qs0oy/800/600",
       link: newLink || "https://lumina.io/view-credential",
       description: newDesc,
       tags: newTagsStr.split(",").map(t => t.trim()).filter(t => t !== "")

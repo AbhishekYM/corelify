@@ -24,14 +24,15 @@ import {
   Send,
   Bell
 } from "lucide-react";
-import { Mentor, MentorReview } from "../types";
+import { Mentor, MentorReview, MentorProduct } from "../types";
 
 interface MentorshipModuleProps {
   mentors: Mentor[];
+  mentorProducts?: MentorProduct[];
   onAddNotification: (title: string, desc: string, type: "message" | "alert" | "recommendation" | "application") => void;
 }
 
-export default function MentorshipModule({ mentors, onAddNotification }: MentorshipModuleProps) {
+export default function MentorshipModule({ mentors, mentorProducts = [], onAddNotification }: MentorshipModuleProps) {
   // Navigation tabs: "consultation" | "store"
   const [activeTab, setActiveTab] = useState<"consultation" | "store">("consultation");
 
@@ -72,16 +73,12 @@ export default function MentorshipModule({ mentors, onAddNotification }: Mentors
   });
 
   // Mentor Digital Products Store list
-  const storeItems = [
-    { id: "p1", title: "Enterprise Design System Variables Boilerplate", author: "Sarah Lin", category: "Digital Product", price: 19, rating: 4.9, description: "Ready-to-import design tokens and components library aligned to standard Tailwind configs.", file: "figma_tokens_masterclass.fig" },
-    { id: "p2", title: "Corporate CV Resume Mapping Blueprint", author: "Marcus Aurelius", category: "Career Guide", price: 9, rating: 4.8, description: "Proven CV structure template used to capture FAANG and high-growth startup contracts.", file: "stanford_cv_guide.pdf" },
-    { id: "p3", title: "WebGL Canvas Graphics Coordination Templates", author: "Nadia Tesla", category: "Learning Material", price: 15, rating: 5.0, description: "Starter codebase for hardware-accelerated interactive UI layouts in React 19.", file: "webgl_canvas_templates.zip" },
-    { id: "p4", title: "Corporate UX Client Negotiation Blueprint", author: "Sarah Lin", category: "Career Guide", price: 12, rating: 4.7, description: "Practical guide to pitching high-ticket design packages and managing variables constraints.", file: "ux_negotiation_guide.pdf" }
-  ];
+  const storeItems = mentorProducts;
 
   const filteredStoreItems = storeItems.filter(item => {
-    const matchesQuery = item.title.toLowerCase().includes(storeSearchQuery.toLowerCase()) || item.author.toLowerCase().includes(storeSearchQuery.toLowerCase());
-    const matchesCategory = storeFilterCategory === "All" || item.category === storeFilterCategory;
+    const mentorName = mentors.find(m => m.id === item.mentorId)?.name || "";
+    const matchesQuery = item.title.toLowerCase().includes(storeSearchQuery.toLowerCase()) || mentorName.toLowerCase().includes(storeSearchQuery.toLowerCase());
+    const matchesCategory = storeFilterCategory === "All" || item.type === storeFilterCategory;
     return matchesQuery && matchesCategory;
   });
 
@@ -578,16 +575,16 @@ export default function MentorshipModule({ mentors, onAddNotification }: Mentors
                     <div className="flex justify-between items-start gap-4">
                       <div>
                         <span className="text-[9px] font-mono text-indigo-600 bg-indigo-50 border border-indigo-150 px-2 py-0.5 rounded font-bold uppercase">
-                          {item.category}
+                          {item.type}
                         </span>
                         <h4 className="text-slate-850 font-display font-bold text-xs mt-2 leading-tight">{item.title}</h4>
-                        <span className="text-slate-400 text-[10px] block mt-0.5">Compiled by {item.author}</span>
+                        <span className="text-slate-400 text-[10px] block mt-0.5">Compiled by {mentors.find(m => m.id === item.mentorId)?.name || "Unknown Mentor"}</span>
                       </div>
 
                       <div className="text-right">
-                        <div className="flex gap-0.5 text-amber-500 items-center justify-end text-[10px]">
-                          <Star className="w-3.5 h-3.5 fill-amber-500" />
-                          <span className="font-semibold font-mono">{item.rating}</span>
+                        <div className="flex gap-1 text-slate-500 items-center justify-end text-[10px]">
+                          <Download className="w-3.5 h-3.5" />
+                          <span className="font-semibold font-mono">{item.downloads}</span>
                         </div>
                       </div>
                     </div>
@@ -601,7 +598,7 @@ export default function MentorshipModule({ mentors, onAddNotification }: Mentors
                     {isPurchased ? (
                       <button
                         onClick={() => {
-                          alert(`Downloading item file attachment: ${item.file}`);
+                          alert(`Downloading item file attachment: ${item.title}`);
                         }}
                         className="px-3.5 py-1.5 bg-emerald-50 border border-emerald-250 text-emerald-800 text-[11px] font-bold rounded-lg flex items-center gap-1 cursor-pointer hover:bg-emerald-100 transition-colors"
                       >

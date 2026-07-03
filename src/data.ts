@@ -1,4 +1,4 @@
-import { Course, Mentor, Opportunity, Workshop, Scholarship, BlogPost, Notification, SupportTicket, UserProfile } from "./types";
+import { Course, Mentor, Opportunity, Workshop, Scholarship, BlogPost, Notification, SupportTicket, UserProfile, LiveClass, MentorProduct } from "./types";
 
 export const INITIAL_COURSES: Course[] = [
   {
@@ -14,7 +14,7 @@ export const INITIAL_COURSES: Course[] = [
     lessonsCount: 12,
     enrolled: true,
     progress: 45,
-    image: "https://images.unsplash.com/photo-1581291518655-9523c932eeae?auto=format&fit=crop&w=800&q=80",
+    image: "https://picsum.photos/seed/msq1rw8/800/600",
     description: "Learn how to build comprehensive, production-ready design systems from scratch. Master variables, auto-layout, interactive components, and token architectures used by Stripe and Linear.",
     curriculum: [
       {
@@ -50,7 +50,7 @@ export const INITIAL_COURSES: Course[] = [
     lessonsCount: 18,
     enrolled: false,
     progress: 0,
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80",
+    image: "https://picsum.photos/seed/yzpiwoq/800/600",
     description: "Master React Server Actions, concurrent rendering, resource preloading, and optimal hydration strategies. Built specifically for elite software builders.",
     curriculum: [
       {
@@ -76,7 +76,7 @@ export const INITIAL_COURSES: Course[] = [
     lessonsCount: 10,
     enrolled: false,
     progress: 0,
-    image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=800&q=80",
+    image: "https://picsum.photos/seed/z1c92ca/800/600",
     description: "Learn to design, spec, and ship product features driven by Large Language Models and multi-agent workflows. Understand costs, latency, and system evaluation metrics.",
     curriculum: []
   }
@@ -92,7 +92,7 @@ export const INITIAL_MENTORS: Mentor[] = [
     reviewsCount: 124,
     price: 85,
     bio: "Ex-Apple & Linear. Specialized in high-craft user interfaces, interactive animations, and structural design systems. I will help you polish your portfolio to land FAANG and top-tier SaaS roles.",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
+    image: "https://picsum.photos/seed/61iis3t/800/600",
     skills: ["Figma", "Design Systems", "Product Strategy", "Framer", "Front-end"],
     availability: ["Monday 3:00 PM", "Wednesday 10:00 AM", "Thursday 5:00 PM"],
     reviews: [
@@ -109,7 +109,7 @@ export const INITIAL_MENTORS: Mentor[] = [
     reviewsCount: 89,
     price: 110,
     bio: "Passionate about building performant collaborative canvases and leading diverse engineering teams. Over 12 years of experience at Google and Adobe.",
-    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=300&q=80",
+    image: "https://picsum.photos/seed/dfmr1qi/800/600",
     skills: ["React", "C++", "System Architecture", "Leadership", "Career Pivoting"],
     availability: ["Tuesday 9:00 AM", "Friday 2:00 PM"],
     reviews: []
@@ -123,7 +123,7 @@ export const INITIAL_MENTORS: Mentor[] = [
     reviewsCount: 73,
     price: 95,
     bio: "I guide aspiring PMs on how to spec highly polished products, conduct meticulous user research, and drive developer-focused workflows.",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80",
+    image: "https://picsum.photos/seed/l60ifoz/800/600",
     skills: ["Product Roadmap", "Metrics & Analytics", "SQL", "Technical PM"],
     availability: ["Wednesday 4:00 PM", "Saturday 11:00 AM"],
     reviews: []
@@ -135,7 +135,7 @@ export const INITIAL_OPPORTUNITIES: Opportunity[] = [
     id: "job-1",
     title: "Senior Product Designer",
     company: "Linear",
-    logo: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=120&q=80",
+    logo: "https://picsum.photos/seed/s28ppl8/800/600",
     type: "Job",
     location: "Remote (Global)",
     stipendOrSalary: "$140,000 - $185,000",
@@ -151,7 +151,7 @@ export const INITIAL_OPPORTUNITIES: Opportunity[] = [
     id: "job-2",
     title: "Frontend Engineering Intern (React/Next)",
     company: "Stripe",
-    logo: "https://images.unsplash.com/photo-1627161683077-e34782c55d81?auto=format&fit=crop&w=120&q=80",
+    logo: "https://picsum.photos/seed/1vsprv2/800/600",
     type: "Internship",
     location: "San Francisco, CA (Hybrid)",
     duration: "6 Months",
@@ -166,7 +166,7 @@ export const INITIAL_OPPORTUNITIES: Opportunity[] = [
     id: "job-3",
     title: "AI Research Engineer",
     company: "OpenAI",
-    logo: "https://images.unsplash.com/photo-1614741118887-7a4ee193a5fa?auto=format&fit=crop&w=120&q=80",
+    logo: "https://picsum.photos/seed/m9kqcor/800/600",
     type: "Job",
     location: "San Francisco, CA",
     stipendOrSalary: "$220,000 - $310,000",
@@ -180,7 +180,7 @@ export const INITIAL_OPPORTUNITIES: Opportunity[] = [
     id: "job-4",
     title: "Product Manager Intern",
     company: "Figma",
-    logo: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=120&q=80",
+    logo: "https://picsum.photos/seed/v0u7s0b/800/600",
     type: "Internship",
     location: "New York, NY (Onsite)",
     duration: "3 Months",
@@ -204,7 +204,7 @@ export const INITIAL_WORKSHOPS: Workshop[] = [
     duration: "2.5 Hours",
     price: 29,
     registrants: 412,
-    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80",
+    image: "https://picsum.photos/seed/v66n1x7/800/600",
     description: "An intensive interactive workshop focusing on typography, field flow, micro-copy, payment localizations, and structural trust-builders that push checkout conversion by up to 25%.",
     registered: false
   },
@@ -218,7 +218,7 @@ export const INITIAL_WORKSHOPS: Workshop[] = [
     duration: "3 Hours",
     price: 49,
     registrants: 289,
-    image: "https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?auto=format&fit=crop&w=800&q=80",
+    image: "https://picsum.photos/seed/pbku801/800/600",
     description: "Learn how to orchestrate complex layout animations, gesture recognitions, staggered entrances, and eye-catching WebGL-level micro-transitions using framer-motion/react.",
     registered: true
   }
@@ -257,7 +257,7 @@ export const INITIAL_BLOGS: BlogPost[] = [
     authorRole: "Principal Architect",
     date: "June 25, 2026",
     readTime: "6 min read",
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
+    image: "https://picsum.photos/seed/mzuz2ca/800/600",
     snippet: "A deep dive into how keyboard shortcuts, aggressive client-side caching, fluid layout physics, and beautiful micro-interactions create an unmatched software experience.",
     content: `When we talk about the "feel" of software, we are often talking about latencies, physics, and predictability. Linear is widely cited as the gold standard of modern developer workflows.
 
@@ -285,7 +285,7 @@ Transitions in Linear do not just start and stop. They utilize customized bezier
     authorRole: "Staff Designer, Stripe",
     date: "May 14, 2026",
     readTime: "8 min read",
-    image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80",
+    image: "https://picsum.photos/seed/19zqupi/800/600",
     snippet: "Stop naming colors 'blue-500'. Build an semantic, intent-based variables tier that powers themes, component contracts, and accessibility without developer friction.",
     content: "When engineering teams scale, standard hardcoded variables lead to visual inconsistencies. Here is our blueprint on building a semantic token mapping engine...",
     comments: [],
@@ -341,7 +341,7 @@ export const INITIAL_PROFILE: UserProfile = {
   email: "abhishek.makwana@sapphiresolutions.net",
   headline: "Product Architect & Fullstack Engineer",
   bio: "Crafting beautiful digital experiences, design systems, and fast backend pipelines. Specialized in React 19, Tailwind CSS, and multi-agent AI ecosystems.",
-  avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80",
+  avatar: "https://picsum.photos/seed/v2p5q5e/800/600",
   resumeUrl: "abhishek_resume_2026.pdf",
   skills: ["React", "TypeScript", "Tailwind CSS", "Figma", "Design Systems", "Next.js", "AI Integrations"],
   projects: [
@@ -349,7 +349,7 @@ export const INITIAL_PROFILE: UserProfile = {
       id: "p-1",
       title: "Synthetix Design Token Engine",
       category: "Product Design",
-      image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=400&q=80",
+      image: "https://picsum.photos/seed/ejdlkq0/800/600",
       link: "https://github.com/synthetix/design-engine",
       description: "A automated Figma plugin that compiles visual variables into production-ready Tailwind token JSON files instantly.",
       tags: ["TypeScript", "Figma API", "Tailwind CSS"]
@@ -363,3 +363,47 @@ export const INITIAL_PROFILE: UserProfile = {
     { degree: "B.Tech in Computer Science & Engineering", school: "IIT Bombay", year: "2018 - 2022" }
   ]
 };
+
+export const INITIAL_LIVE_CLASSES: LiveClass[] = [
+  {
+    id: "lc-1",
+    title: "Advanced Figma Component Architecture",
+    instructor: "Adrian Thompson",
+    date: "2026-07-05",
+    time: "10:00 AM PST",
+    duration: "1.5 hours",
+    status: "Upcoming"
+  },
+  {
+    id: "lc-2",
+    title: "Building LLM Wrappers with Next.js",
+    instructor: "Sarah Chen",
+    date: "2026-07-06",
+    time: "2:00 PM EST",
+    duration: "2 hours",
+    status: "Upcoming"
+  }
+];
+
+export const INITIAL_MENTOR_PRODUCTS: MentorProduct[] = [
+  {
+    id: "mp-1",
+    title: "Product Design Interview Playbook",
+    mentorId: "m-1",
+    type: "Guide",
+    price: 29.99,
+    image: "https://picsum.photos/seed/hjut5nx/800/600",
+    downloads: 1240,
+    description: "The complete playbook for acing product design interviews at FAANG companies."
+  },
+  {
+    id: "mp-2",
+    title: "Figma Design System Template",
+    mentorId: "m-1",
+    type: "Template",
+    price: 49.00,
+    image: "https://picsum.photos/seed/esi4v5g/800/600",
+    downloads: 856,
+    description: "A production-ready Figma design system template to kickstart your next project."
+  }
+];

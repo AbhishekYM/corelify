@@ -11,7 +11,7 @@ export default function AIModule({ userProfile }: AIModuleProps) {
 
   // Chat Advisor state
   const [messages, setMessages] = useState([
-    { sender: "ai", text: "Hey Abhishek! I am your Lumina Career Copilot. I've analyzed your portfolio and resume. What career pivot or skill alignment shall we focus on today?", time: "10:10 AM" }
+    { sender: "ai", text: "Hey! I am your Corelify AI Career Copilot. I've analyzed your portfolio and resume. What career pivot or skill alignment shall we focus on today?", time: "10:10 AM" }
   ]);
   const [inputText, setInputText] = useState("");
 

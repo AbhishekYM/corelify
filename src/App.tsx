@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Sparkles, Trophy, Award, Compass, ArrowRight, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { Routes, Route, Navigate, useNavigate, useParams, useLocation } from "react-router-dom";
 
 // Import core types
-import { UserProfile, Course, Mentor, Opportunity, Workshop, Scholarship, BlogPost, Notification, SupportTicket } from "./types";
+import { UserProfile, Course, Mentor, Opportunity, Workshop, Scholarship, BlogPost, Notification, SupportTicket, AdminProfile, LiveClass, MentorProduct } from "./types";
 
 // Import robust static data
 import {
@@ -15,15 +16,24 @@ import {
   INITIAL_SCHOLARSHIPS,
   INITIAL_BLOGS,
   INITIAL_NOTIFICATIONS,
-  INITIAL_TICKETS
+  INITIAL_TICKETS,
+  INITIAL_LIVE_CLASSES,
+  INITIAL_MENTOR_PRODUCTS
 } from "./data";
 
 // Import modular components
 import LandingPage from "./components/LandingPage";
+import CategoryPage from "./components/CategoryPage";
+import CourseDetailPage from "./components/CourseDetailPage";
+import CoursesPage from "./components/CoursesPage";
+import InstructorsPage from "./components/InstructorsPage";
+import StorePage from "./components/StorePage";
+import ForumsPage from "./components/ForumsPage";
 import AuthFlow from "./components/AuthFlow";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import CaseStudy from "./components/CaseStudy";
+import AdminLogin from "./components/AdminLogin";
 import AdminPanel from "./components/AdminPanel";
 
 // Import feature view modules
@@ -36,33 +46,63 @@ import PortfolioModule from "./components/PortfolioModule";
 import CommunityBlogsModule from "./components/CommunityBlogsModule";
 import SupportModule from "./components/SupportModule";
 import SettingsModule from "./components/SettingsModule";
+import WorkshopsModule from "./components/WorkshopsModule";
 
-type ViewMode = "landing" | "auth" | "app" | "admin";
+const WorkspaceComponent = ({ userProfile, courses, liveClasses, mentors, mentorProducts, opportunities, workshops, scholarships, blogs, notifications, setNotifications, tickets, handleAddNotification, handleEnrollCourse, setCourses, setOpportunities, setScholarships, setBlogs, setTickets, setUserProfile, setWorkshops }: any) => {
+  const navigate = useNavigate();
+  const { role, view } = useParams<{ role: string, view: string }>();
+  const activeView = view || "dashboard";
+  
+  return (
+    <motion.div
+      key="app"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.4 }}
+      className="h-screen flex overflow-hidden"
+    >
+      <Sidebar
+        activeView={activeView}
+        setActiveView={(v) => navigate(`/${role}/${v}`)}
+        userProfile={userProfile}
+        notificationsCount={notifications.filter((n) => !n.read).length}
+        onNavigateToAdmin={role === "admin" ? () => navigate("/admin/dashboard") : undefined}
+        onLogout={() => navigate("/")}
+      />
+      <div className="flex-grow flex flex-col min-w-0">
+        <Header
+          notifications={notifications}
+          setNotifications={setNotifications}
+          onViewCaseStudy={() => {}}
+          isCaseStudyActive={false}
+          onExitCaseStudy={() => {}}
+          onNavigateToView={(v) => navigate(`/${role}/${v}`)}
+          userProfile={userProfile}
+          onAddNotification={handleAddNotification}
+        />
+        <main className="flex-1 p-6 overflow-hidden bg-slate-100/50">
+          {activeView === "dashboard" && <DashboardHome userProfile={userProfile} courses={courses} mentors={mentors} opportunities={opportunities} workshops={workshops} scholarships={scholarships} onNavigateToView={(v) => navigate(`/${role}/${v}`)} onEnrollCourse={handleEnrollCourse} />}
+          {activeView === "courses" && <CoursesModule courses={courses} setCourses={setCourses} liveClasses={liveClasses} onAddNotification={handleAddNotification} />}
+          {activeView === "mentorship" && <MentorshipModule mentors={mentors} mentorProducts={mentorProducts} onAddNotification={handleAddNotification} />}
+          {activeView === "opportunities" && <OpportunitiesModule opportunities={opportunities} setOpportunities={setOpportunities} scholarships={scholarships} setScholarships={setScholarships} onAddNotification={handleAddNotification} />}
+          {activeView === "workshops" && <WorkshopsModule workshops={workshops} setWorkshops={setWorkshops} onAddNotification={handleAddNotification} />}
+          {activeView === "ai" && <AIModule userProfile={userProfile} />}
+          {activeView === "portfolio" && <PortfolioModule userProfile={userProfile} setUserProfile={setUserProfile} onAddNotification={handleAddNotification} />}
+          {activeView === "blogs" && <CommunityBlogsModule blogs={blogs} setBlogs={setBlogs} />}
+          {activeView === "support" && <SupportModule tickets={tickets} setTickets={setTickets} onAddNotification={handleAddNotification} />}
+          {activeView === "settings" && <SettingsModule userProfile={userProfile} setUserProfile={setUserProfile} onAddNotification={handleAddNotification} />}
+        </main>
+      </div>
+    </motion.div>
+  );
+};
 
 export default function App() {
-  const [viewMode, setViewMode] = useState<ViewMode>("landing");
-  const [activeView, setActiveView] = useState<string>("dashboard");
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isCaseStudyActive, setIsCaseStudyActive] = useState<boolean>(false);
-
-  // Synchronize URL /admin route
-  useEffect(() => {
-    const handleRouteCheck = () => {
-      const path = window.location.pathname;
-      const hash = window.location.hash;
-      if (path === "/admin" || hash === "#admin" || hash === "#/admin") {
-        setViewMode("admin");
-      }
-    };
-
-    handleRouteCheck();
-
-    window.addEventListener("popstate", handleRouteCheck);
-    window.addEventListener("hashchange", handleRouteCheck);
-    return () => {
-      window.removeEventListener("popstate", handleRouteCheck);
-      window.removeEventListener("hashchange", handleRouteCheck);
-    };
-  }, []);
+  const [currentAdmin, setCurrentAdmin] = useState<AdminProfile | null>(null);
 
   // Ecosystem dynamic states
   const [userProfile, setUserProfile] = useState<UserProfile>(INITIAL_PROFILE);
@@ -74,6 +114,8 @@ export default function App() {
   const [blogs, setBlogs] = useState<BlogPost[]>(INITIAL_BLOGS);
   const [notifications, setNotifications] = useState<Notification[]>(INITIAL_NOTIFICATIONS);
   const [tickets, setTickets] = useState<SupportTicket[]>(INITIAL_TICKETS);
+  const [liveClasses, setLiveClasses] = useState<LiveClass[]>(INITIAL_LIVE_CLASSES);
+  const [mentorProducts, setMentorProducts] = useState<MentorProduct[]>(INITIAL_MENTOR_PRODUCTS);
 
   // Trigger global system notifications
   const handleAddNotification = (
@@ -116,8 +158,7 @@ export default function App() {
       ...prev,
       ...onboardedProfile
     }));
-    setViewMode("app");
-    setActiveView("dashboard");
+    navigate(`/${onboardedProfile.role || "Student"}/dashboard`);
     handleAddNotification(
       "Ecosystem Configured",
       `Welcome, ${onboardedProfile.fullName || userProfile.fullName}! Your custom telemetry and career score are compiled.`,
@@ -128,190 +169,93 @@ export default function App() {
   return (
     <div className="bg-[#F8FAFC] text-slate-900 min-h-screen relative overflow-x-hidden font-sans">
       <AnimatePresence mode="wait">
-        {/* VIEW 1: LANDING WEBSITE */}
-        {viewMode === "landing" && !isCaseStudyActive && (
-          <motion.div
-            key="landing"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <LandingPage
-              onEnterApp={(initialView?: string) => {
-                setViewMode("auth");
-                if (initialView) {
-                  setActiveView(initialView);
-                }
-              }}
-              onViewCaseStudy={() => setIsCaseStudyActive(true)}
-            />
-          </motion.div>
-        )}
+        <Routes location={location}>
+          <Route path="/" element={!isCaseStudyActive ? (
+            <motion.div key="landing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
+              <LandingPage onViewCaseStudy={() => setIsCaseStudyActive(true)} />
+            </motion.div>
+          ) : null} />
 
-        {/* VIEW 2: AUTHENTICATION FLOW */}
-        {viewMode === "auth" && !isCaseStudyActive && (
-          <motion.div
-            key="auth"
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.02 }}
-            transition={{ duration: 0.3 }}
-          >
-            <AuthFlow
-              onAuthSuccess={handleAuthSuccess}
-              onBackToLanding={() => setViewMode("landing")}
-            />
-          </motion.div>
-        )}
+          <Route path="/category/:categoryId" element={!isCaseStudyActive ? (
+            <motion.div key="category" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
+              <CategoryPage />
+            </motion.div>
+          ) : null} />
 
-        {/* VIEW 3: MAIN WORKSPACE APPLICATION */}
-        {viewMode === "app" && !isCaseStudyActive && (
-          <motion.div
-            key="app"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="h-screen flex overflow-hidden"
-          >
-            {/* Navigation Sidebar */}
-            <Sidebar
-              activeView={activeView}
-              setActiveView={setActiveView}
-              userProfile={userProfile}
-              notificationsCount={notifications.filter((n) => !n.read).length}
-              onNavigateToAdmin={() => {
-                window.history.pushState(null, "", "/admin");
-                setViewMode("admin");
-              }}
-            />
+          <Route path="/category/:categoryId/:subCategoryId" element={!isCaseStudyActive ? (
+            <motion.div key="subcategory" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
+              <CategoryPage />
+            </motion.div>
+          ) : null} />
 
-            {/* Main Stage Stage Wrapper */}
-            <div className="flex-grow flex flex-col min-w-0">
-              <Header
-                notifications={notifications}
-                setNotifications={setNotifications}
-                onViewCaseStudy={() => setIsCaseStudyActive(true)}
-                isCaseStudyActive={isCaseStudyActive}
-                onExitCaseStudy={() => setIsCaseStudyActive(false)}
-                onNavigateToView={setActiveView}
-                userProfile={userProfile}
-                onAddNotification={handleAddNotification}
-              />
+          <Route path="/course/:courseId" element={!isCaseStudyActive ? (
+            <motion.div key="course-detail" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
+              <CourseDetailPage />
+            </motion.div>
+          ) : null} />
 
-              <main className="flex-1 p-6 overflow-hidden bg-slate-100/50">
-                {activeView === "dashboard" && (
-                  <DashboardHome
-                    userProfile={userProfile}
-                    courses={courses}
-                    mentors={mentors}
-                    opportunities={opportunities}
-                    workshops={workshops}
-                    scholarships={scholarships}
-                    onNavigateToView={setActiveView}
-                    onEnrollCourse={handleEnrollCourse}
-                  />
-                )}
+          <Route path="/courses" element={!isCaseStudyActive ? (
+            <motion.div key="courses-page" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
+              <CoursesPage />
+            </motion.div>
+          ) : null} />
 
-                {activeView === "courses" && (
-                  <CoursesModule
-                    courses={courses}
-                    setCourses={setCourses}
-                  />
-                )}
+          <Route path="/instructors" element={!isCaseStudyActive ? (
+            <motion.div key="instructors-page" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
+              <InstructorsPage />
+            </motion.div>
+          ) : null} />
 
-                {activeView === "mentorship" && (
-                  <MentorshipModule
-                    mentors={mentors}
-                    onAddNotification={handleAddNotification}
-                  />
-                )}
+          <Route path="/store" element={!isCaseStudyActive ? (
+            <motion.div key="store-page" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
+              <StorePage />
+            </motion.div>
+          ) : null} />
 
-                {activeView === "opportunities" && (
-                  <OpportunitiesModule
-                    opportunities={opportunities}
-                    setOpportunities={setOpportunities}
-                    scholarships={scholarships}
-                    setScholarships={setScholarships}
-                    onAddNotification={handleAddNotification}
-                  />
-                )}
+          <Route path="/forums" element={!isCaseStudyActive ? (
+            <motion.div key="forums-page" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
+              <ForumsPage />
+            </motion.div>
+          ) : null} />
 
-                {activeView === "ai" && (
-                  <AIModule
-                    userProfile={userProfile}
-                  />
-                )}
+          <Route path="/:role/login" element={!isCaseStudyActive ? (
+            <motion.div key="auth-login" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.02 }} transition={{ duration: 0.3 }}>
+              <AuthFlow initialScreen="login" onAuthSuccess={handleAuthSuccess} />
+            </motion.div>
+          ) : null} />
 
-                {activeView === "portfolio" && (
-                  <PortfolioModule
-                    userProfile={userProfile}
-                    setUserProfile={setUserProfile}
-                    onAddNotification={handleAddNotification}
-                  />
-                )}
+          <Route path="/:role/register" element={!isCaseStudyActive ? (
+            <motion.div key="auth-reg" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.02 }} transition={{ duration: 0.3 }}>
+              <AuthFlow initialScreen="signup" onAuthSuccess={handleAuthSuccess} />
+            </motion.div>
+          ) : null} />
 
-                {activeView === "blogs" && (
-                  <CommunityBlogsModule
-                    blogs={blogs}
-                    setBlogs={setBlogs}
-                  />
-                )}
+          <Route path="/:role/:view" element={!isCaseStudyActive ? <WorkspaceComponent userProfile={userProfile} courses={courses} liveClasses={liveClasses} mentors={mentors} mentorProducts={mentorProducts} opportunities={opportunities} workshops={workshops} scholarships={scholarships} blogs={blogs} notifications={notifications} setNotifications={setNotifications} tickets={tickets} handleAddNotification={handleAddNotification} handleEnrollCourse={handleEnrollCourse} setCourses={setCourses} setOpportunities={setOpportunities} setScholarships={setScholarships} setBlogs={setBlogs} setTickets={setTickets} setUserProfile={setUserProfile} setWorkshops={setWorkshops} /> : null} />
 
-                {activeView === "support" && (
-                  <SupportModule
-                    tickets={tickets}
-                    setTickets={setTickets}
-                    onAddNotification={handleAddNotification}
-                  />
-                )}
+          <Route path="/admin/:tab?" element={!isCaseStudyActive ? (
+            <motion.div key="admin" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }} className="h-screen w-screen overflow-hidden">
+              {!currentAdmin ? (
+                <AdminLogin onLogin={(profile) => setCurrentAdmin(profile)} onBack={() => navigate("/")} />
+              ) : (
+                <AdminPanel
+                  currentAdmin={currentAdmin}
+                  courses={courses} setCourses={setCourses}
+                  mentors={mentors} setMentors={setMentors}
+                  opportunities={opportunities} setOpportunities={setOpportunities}
+                  workshops={workshops} setWorkshops={setWorkshops}
+                  scholarships={scholarships} setScholarships={setScholarships}
+                  blogs={blogs} setBlogs={setBlogs}
+                  tickets={tickets} setTickets={setTickets}
+                  onAddNotification={handleAddNotification}
+                  onLogout={() => setCurrentAdmin(null)}
+                  onClose={() => navigate("/")}
+                />
+              )}
+            </motion.div>
+          ) : null} />
 
-                {activeView === "settings" && (
-                  <SettingsModule
-                    userProfile={userProfile}
-                    setUserProfile={setUserProfile}
-                    onAddNotification={handleAddNotification}
-                  />
-                )}
-              </main>
-            </div>
-          </motion.div>
-        )}
-
-        {/* VIEW 4: SYSTEM ADMIN PANEL CONTROL */}
-        {viewMode === "admin" && !isCaseStudyActive && (
-          <motion.div
-            key="admin"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="h-screen w-screen overflow-hidden"
-          >
-            <AdminPanel
-              courses={courses}
-              setCourses={setCourses}
-              mentors={mentors}
-              setMentors={setMentors}
-              opportunities={opportunities}
-              setOpportunities={setOpportunities}
-              workshops={workshops}
-              setWorkshops={setWorkshops}
-              scholarships={scholarships}
-              setScholarships={setScholarships}
-              blogs={blogs}
-              setBlogs={setBlogs}
-              tickets={tickets}
-              setTickets={setTickets}
-              onAddNotification={handleAddNotification}
-              onClose={() => {
-                window.history.pushState(null, "", "/");
-                setViewMode("landing");
-              }}
-            />
-          </motion.div>
-        )}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </AnimatePresence>
 
       {/* OVERLAY MODE: UX STRATEGY & DESIGN SYSTEM PLAYGROUND */}

@@ -9,7 +9,7 @@ export default function CaseStudy() {
     {
       name: "Siddharth Mehta",
       role: "Aspiring Product Builder",
-      avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&q=80",
+      avatar: "https://picsum.photos/seed/tbnfs99/800/600",
       age: 21,
       location: "Mumbai, India",
       needs: [
@@ -24,7 +24,7 @@ export default function CaseStudy() {
     {
       name: "Elena Rostova",
       role: "Career Pivoter (Ex-Sales Manager)",
-      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80",
+      avatar: "https://picsum.photos/seed/988hfzb/800/600",
       age: 28,
       location: "Berlin, Germany (Remote)",
       needs: [

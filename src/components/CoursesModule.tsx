@@ -23,14 +23,16 @@ import {
   ChevronDown,
   Info
 } from "lucide-react";
-import { Course, Lesson } from "../types";
+import { Course, Lesson, LiveClass } from "../types";
 
 interface CoursesModuleProps {
   courses: Course[];
   setCourses: React.Dispatch<React.SetStateAction<Course[]>>;
+  liveClasses?: LiveClass[];
+  onAddNotification?: (t: string, d: string, type: "message" | "alert" | "recommendation" | "application") => void;
 }
 
-export default function CoursesModule({ courses, setCourses }: CoursesModuleProps) {
+export default function CoursesModule({ courses, setCourses, liveClasses = [], onAddNotification }: CoursesModuleProps) {
   // Navigation View Tab: "catalog" | "live"
   const [moduleView, setModuleView] = useState<"catalog" | "live">("catalog");
 
@@ -408,7 +410,7 @@ export default function CoursesModule({ courses, setCourses }: CoursesModuleProp
                       </div>
 
                       <div className="z-10 flex justify-between items-center border-t border-slate-700/60 pt-3">
-                        <span className="text-[9px] text-slate-300 font-mono">Academic ID: LUM-PLAY-S1A</span>
+                        <span className="text-[9px] text-slate-300 font-mono">Academic ID: COR-PLAY-S1A</span>
                         
                         <button
                           onClick={() => {
@@ -876,7 +878,7 @@ export default function CoursesModule({ courses, setCourses }: CoursesModuleProp
                   <span>DATE: July 02, 2026</span>
                 </div>
                 <div className="text-right">
-                  <span>VERIFICATION CODE: LUM-2647-ASTR</span>
+                  <span>VERIFICATION CODE: COR-2647-ASTR</span>
                 </div>
               </div>
             </div>

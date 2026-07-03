@@ -1,22 +1,25 @@
 import React, { useState } from "react";
-import { Mail, Lock, ShieldCheck, Sparkles, Chrome, Github, ArrowRight, ArrowLeft, Upload, CheckCircle2, User, UserCheck } from "lucide-react";
+import { Mail, Lock, ShieldCheck, Sparkles, Chrome, Github, ArrowRight, ArrowLeft, Upload, CheckCircle2, User, UserCheck, Eye, EyeOff } from "lucide-react";
 import { motion } from "motion/react";
 import { UserProfile } from "../types";
 
 interface AuthFlowProps {
   onAuthSuccess: (profile: Partial<UserProfile>) => void;
-  onBackToLanding: () => void;
+  onBackToLanding?: () => void;
+  initialScreen?: "login" | "signup";
 }
 
-type ScreenType = "login" | "signup" | "forgot" | "otp" | "verified" | "onboarding-1" | "onboarding-2";
+type ScreenType = "login" | "signup" | "forgot" | "otp" | "reset-password" | "verified" | "onboarding-1" | "onboarding-2";
 
-export default function AuthFlow({ onAuthSuccess, onBackToLanding }: AuthFlowProps) {
-  const [screen, setScreen] = useState<ScreenType>("login");
+export default function AuthFlow({ onAuthSuccess, onBackToLanding, initialScreen }: AuthFlowProps) {
+  const [screen, setScreen] = useState<ScreenType>(initialScreen || "login");
   const [email, setEmail] = useState("abhishek.makwana@sapphiresolutions.net");
   const [password, setPassword] = useState("••••••••");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [fullName, setFullName] = useState("Abhishek Makwana");
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [loading, setLoading] = useState(false);
+  const [isResetFlow, setIsResetFlow] = useState(false);
 
   // Onboarding parameters
   const [roleSelection, setRoleSelection] = useState("Design");
@@ -75,17 +78,91 @@ export default function AuthFlow({ onAuthSuccess, onBackToLanding }: AuthFlowPro
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6 relative overflow-hidden font-sans">
-      {/* Background Orbs */}
-      <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-100/40 rounded-full blur-[100px]" />
-      <div className="absolute bottom-0 left-0 w-80 h-80 bg-violet-100/30 rounded-full blur-[100px]" />
+    <div className="min-h-screen bg-[#F8FAFC] flex font-sans">
 
-      <div className="w-full max-w-md bg-white border border-slate-200 rounded-2xl p-8 shadow-xl relative overflow-hidden">
+      {/* ── LEFT PANEL ── */}
+      <div className="hidden lg:flex flex-col w-[440px] shrink-0 bg-[#0B0F59] relative overflow-hidden">
+        {/* Ambient glows */}
+        <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-indigo-500/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-violet-500/10 rounded-full blur-[80px]" />
+
+        {/* Logo */}
+        <div className="relative z-10 p-10">
+          <img
+            src="https://corelify.io/store/1/CORELIFY%20LOGO.png"
+            alt="Corelify Logo"
+            className="h-8 w-auto brightness-0 invert"
+          />
+        </div>
+
+        {/* Center content */}
+        <div className="relative z-10 flex-1 flex flex-col justify-center px-10 pb-16">
+          <div className="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-400/20 px-3 py-1.5 rounded-full mb-6 w-fit">
+            <ShieldCheck className="w-3.5 h-3.5 text-indigo-300" />
+            <span className="text-[10px] font-semibold text-indigo-300 uppercase tracking-widest">Learning Ecosystem</span>
+          </div>
+
+          <h1 className="text-4xl font-display font-bold text-white leading-tight mb-4">
+            Accelerate your<br />
+            <span className="text-indigo-300">digital craft</span>
+          </h1>
+
+          <p className="text-indigo-200/70 text-sm leading-relaxed mb-10">
+            Join thousands of developers and designers building careers with Corelify's AI-powered mentorship ecosystem.
+          </p>
+
+          {/* Feature list */}
+          <div className="space-y-4">
+            {[
+              "AI-matched courses for your skill gaps",
+              "1:1 sessions with staff-level mentors",
+              "Live internships & job applications",
+              "Portfolio builder with AI feedback",
+            ].map((item) => (
+              <div key={item} className="flex items-center gap-3">
+                <div className="w-5 h-5 bg-indigo-500/20 border border-indigo-400/30 rounded-full flex items-center justify-center shrink-0">
+                  <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full" />
+                </div>
+                <span className="text-indigo-100/80 text-[12px] font-medium">{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom decoration */}
+        <div className="relative z-10 px-10 pb-8">
+          <div className="border-t border-indigo-800/60 pt-6 flex items-center justify-between">
+            <span className="text-[10px] text-indigo-400/60 font-medium">© 2026 Corelify Edu Systems</span>
+            <div className="flex items-center gap-1.5 text-[10px] text-indigo-400/60 font-medium">
+              <Lock className="w-3 h-3" />
+              Secured
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── RIGHT PANEL ── */}
+      <div className="flex-1 flex items-center justify-center p-6 relative">
+        {/* Ambient bg glows */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-100/30 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-violet-100/20 rounded-full blur-[120px] pointer-events-none" />
+
+        <div className="w-full max-w-md relative z-10">
+          {/* Mobile logo */}
+          <div className="lg:hidden flex justify-center mb-8">
+            <img
+              src="https://corelify.io/store/1/CORELIFY%20LOGO.png"
+              alt="Corelify Logo"
+              className="h-10 w-auto"
+            />
+          </div>
+
+      <div className="w-full bg-white border border-slate-200 rounded-3xl p-8 shadow-xl shadow-slate-200/50 relative overflow-hidden">
         {/* Loading overlay */}
         {loading && (
-          <div className="absolute inset-0 bg-slate-50/75 backdrop-blur-sm z-50 flex flex-col items-center justify-center gap-3">
-            <div className="w-8 h-8 border-2 border-indigo-65 border-t-transparent rounded-full animate-spin" />
-            <span className="text-xs text-slate-500 font-mono">Aligning telemetry...</span>
+          <div className="absolute inset-0 bg-white/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center gap-3">
+            <div className="w-8 h-8 border-2 border-[#0B0F59] border-t-transparent rounded-full animate-spin" />
+            <span className="text-xs text-slate-500 font-mono">Setting up your workspace...</span>
           </div>
         )}
 
@@ -95,23 +172,22 @@ export default function AuthFlow({ onAuthSuccess, onBackToLanding }: AuthFlowPro
             if (screen === "login") onBackToLanding();
             else if (screen === "signup") setScreen("login");
             else if (screen === "forgot") setScreen("login");
-            else if (screen === "otp") setScreen("forgot");
+            else if (screen === "otp") setScreen(isResetFlow ? "forgot" : "signup");
+            else if (screen === "reset-password") setScreen("otp");
             else if (screen === "onboarding-1") setScreen("verified");
             else if (screen === "onboarding-2") setScreen("onboarding-1");
           }}
-          className="absolute top-6 left-6 text-slate-400 hover:text-slate-800 transition-colors flex items-center gap-1.5 text-xs font-medium cursor-pointer"
+          className="absolute top-6 left-6 text-slate-400 hover:text-[#0B0F59] transition-colors flex items-center gap-1.5 text-xs font-medium cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back</span>
         </button>
 
         {/* Auth branding */}
-        <div className="text-center mb-8 pt-4">
-          <div className="w-10 h-10 bg-gradient-to-tr from-indigo-500 to-violet-500 rounded-xl flex items-center justify-center font-display font-bold text-white shadow-lg mx-auto mb-3">
-            L
-          </div>
-          <h2 className="font-display font-bold text-xl text-slate-800 tracking-tight">Lumina Ecosystem</h2>
-          <p className="text-slate-500 text-xs mt-1">Accelerating craft and digital leadership</p>
+        <div className="text-center mb-7 pt-4">
+          <img src="https://corelify.io/store/1/CORELIFY%20LOGO.png" alt="Corelify Logo" className="h-10 w-auto mx-auto mb-3" />
+          <h2 className="font-display font-bold text-xl text-slate-900 tracking-tight">Welcome Back</h2>
+          <p className="text-slate-500 text-xs mt-1">Sign in to continue to your workspace</p>
         </div>
 
         {/* SCREEN 1: LOGIN */}
@@ -135,7 +211,7 @@ export default function AuthFlow({ onAuthSuccess, onBackToLanding }: AuthFlowPro
               <div className="flex justify-between items-center">
                 <label className="text-[10px] text-slate-400 font-mono uppercase block">Account Password</label>
                 <button
-                  onClick={() => setScreen("forgot")}
+                  onClick={() => { setIsResetFlow(true); setScreen("forgot"); }}
                   className="text-[10px] text-indigo-600 font-mono hover:underline cursor-pointer"
                 >
                   Forgot?
@@ -154,7 +230,7 @@ export default function AuthFlow({ onAuthSuccess, onBackToLanding }: AuthFlowPro
 
             <button
               onClick={() => handleNextStep("onboarding-1")}
-              className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl transition-all shadow-lg flex items-center justify-center gap-1.5 cursor-pointer"
+              className="w-full py-2.5 bg-[#0B0F59] hover:bg-indigo-900 text-white text-xs font-semibold rounded-xl transition-all shadow-lg shadow-indigo-900/20 flex items-center justify-center gap-1.5 cursor-pointer"
             >
               Sign In to Workspace
               <ArrowRight className="w-3.5 h-3.5" />
@@ -185,7 +261,7 @@ export default function AuthFlow({ onAuthSuccess, onBackToLanding }: AuthFlowPro
             </div>
 
             <p className="text-center text-xs text-slate-500 pt-2">
-              New to Lumina?{" "}
+              New to Corelify?{" "}
               <button onClick={() => setScreen("signup")} className="text-indigo-650 hover:underline font-semibold cursor-pointer">
                 Create account
               </button>
@@ -211,7 +287,7 @@ export default function AuthFlow({ onAuthSuccess, onBackToLanding }: AuthFlowPro
             </div>
 
             <div className="space-y-1">
-              <label className="text-[10px] text-slate-400 font-mono uppercase block">Corporate Email Address</label>
+              <label className="text-[10px] text-slate-400 font-mono uppercase block">Email or Phone</label>
               <div className="relative">
                 <input
                   type="email"
@@ -238,12 +314,36 @@ export default function AuthFlow({ onAuthSuccess, onBackToLanding }: AuthFlowPro
             </div>
 
             <button
-              onClick={() => handleNextStep("verified")}
-              className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl transition-all shadow-lg flex items-center justify-center gap-1.5 cursor-pointer"
+              onClick={() => { setIsResetFlow(false); handleNextStep("otp"); }}
+              className="w-full py-2.5 bg-[#0B0F59] hover:bg-indigo-900 text-white text-xs font-semibold rounded-xl transition-all shadow-lg shadow-indigo-900/20 flex items-center justify-center gap-1.5 cursor-pointer"
             >
               Generate Verification Code
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
+
+            {/* Social Logins */}
+            <div className="relative flex py-2 items-center">
+              <div className="flex-grow border-t border-slate-200"></div>
+              <span className="flex-shrink mx-3 text-slate-400 font-mono text-[9px] uppercase">Or Sign up with</span>
+              <div className="flex-grow border-t border-slate-200"></div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                onClick={() => handleNextStep("onboarding-1")}
+                className="py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-600 hover:text-slate-800 hover:bg-slate-100 hover:border-slate-350 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+              >
+                <Chrome className="w-3.5 h-3.5" />
+                <span>Google</span>
+              </button>
+              <button
+                onClick={() => handleNextStep("onboarding-1")}
+                className="py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-600 hover:text-slate-800 hover:bg-slate-100 hover:border-slate-350 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+              >
+                <Github className="w-3.5 h-3.5" />
+                <span>GitHub</span>
+              </button>
+            </div>
 
             <p className="text-center text-xs text-slate-500 pt-2">
               Already have an account?{" "}
@@ -306,7 +406,7 @@ export default function AuthFlow({ onAuthSuccess, onBackToLanding }: AuthFlowPro
             </div>
 
             <button
-              onClick={() => handleNextStep("verified")}
+              onClick={() => handleNextStep(isResetFlow ? "reset-password" : "verified")}
               className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl transition-all shadow-lg flex items-center justify-center gap-1.5 cursor-pointer"
             >
               Verify Token
@@ -316,6 +416,51 @@ export default function AuthFlow({ onAuthSuccess, onBackToLanding }: AuthFlowPro
             <p className="text-[10px] text-slate-450 font-mono">
               Didn't receive? <button className="text-indigo-600 hover:underline cursor-pointer">Resend Token</button> (59s)
             </p>
+          </div>
+        )}
+
+        {/* SCREEN 4.5: RESET PASSWORD */}
+        {screen === "reset-password" && (
+          <div className="space-y-4">
+            <div>
+              <span className="text-[9px] font-mono text-indigo-600 uppercase tracking-wider block mb-1 font-bold">Secure your account</span>
+              <h3 className="text-slate-800 font-display font-medium text-base mb-4">Create a new password</h3>
+            </div>
+            <div>
+              <label className="text-[10px] text-slate-400 font-mono uppercase block mb-1">New Password</label>
+              <div className="relative">
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:bg-white focus:border-indigo-600 transition-all"
+                  placeholder="••••••••"
+                />
+                <Lock className="absolute left-3 top-2.5 w-3.5 h-3.5 text-slate-400" />
+              </div>
+            </div>
+
+            <div>
+              <label className="text-[10px] text-slate-400 font-mono uppercase block mb-1">Retype New Password</label>
+              <div className="relative">
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:bg-white focus:border-indigo-600 transition-all"
+                  placeholder="••••••••"
+                />
+                <Lock className="absolute left-3 top-2.5 w-3.5 h-3.5 text-slate-400" />
+              </div>
+            </div>
+
+            <button
+              onClick={() => handleNextStep("login")}
+              className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl transition-all shadow-lg flex items-center justify-center gap-1.5 cursor-pointer mt-2"
+            >
+              Reset Password & Login
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
           </div>
         )}
 
@@ -431,11 +576,13 @@ export default function AuthFlow({ onAuthSuccess, onBackToLanding }: AuthFlowPro
               onClick={handleCompleteOnboarding}
               className="w-full py-2.5 bg-gradient-to-tr from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-xs font-semibold rounded-xl transition-all shadow-lg flex items-center justify-center gap-1.5 cursor-pointer"
             >
-              Assemble Lumina Workspace
+              Launch Corelify Workspace
               <Sparkles className="w-3.5 h-3.5" />
             </button>
           </div>
         )}
+      </div>
+        </div>
       </div>
     </div>
   );

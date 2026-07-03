@@ -17,7 +17,7 @@ export default function OpportunitiesModule({
   setScholarships,
   onAddNotification
 }: OpportunitiesModuleProps) {
-  const [activeTab, setActiveTab] = useState<"jobs" | "internships" | "scholarships" | "tracker">("jobs");
+  const [activeTab, setActiveTab] = useState<"jobs" | "internships" | "scholarships">("jobs");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSkillFilter, setSelectedSkillFilter] = useState("All");
 
@@ -91,14 +91,7 @@ export default function OpportunitiesModule({
   const activeOppDetails = opportunities.find((o) => o.id === selectedOpportunityId) || opportunities[0];
   const activeSchDetails = scholarships.find((s) => s.id === selectedScholarshipId) || scholarships[0];
 
-  // Helper arrays for Kanban Board columns
-  const kanbanColumns = [
-    { id: "Applied", title: "Applied", color: "bg-blue-500/10 text-blue-400 border-blue-500/20" },
-    { id: "Reviewing", title: "Reviewing", color: "bg-amber-500/10 text-amber-400 border-amber-500/20" },
-    { id: "Interviewing", title: "Interviewing", color: "bg-indigo-500/10 text-indigo-400 border-indigo-500/20" },
-    { id: "Offered", title: "Offered", color: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" },
-    { id: "Rejected", title: "Rejected", color: "bg-red-500/10 text-red-400 border-red-500/20" }
-  ];
+
 
   return (
     <div className="h-full flex flex-col gap-6 select-none font-sans overflow-hidden">
@@ -129,20 +122,10 @@ export default function OpportunitiesModule({
           >
             Scholarships & Grants
           </button>
-          <button
-            onClick={() => setActiveTab("tracker")}
-            className={`px-4 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer flex items-center gap-1 cursor-pointer ${
-              activeTab === "tracker" ? "bg-indigo-600 text-white shadow-sm font-semibold" : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
-            }`}
-          >
-            <Kanban className="w-3.5 h-3.5" />
-            <span>Kanban Tracker</span>
-          </button>
         </div>
 
         {/* Global Opportunities search */}
-        {activeTab !== "tracker" && (
-          <div className="relative w-64">
+        <div className="relative w-64">
             <input
               type="text"
               value={searchQuery}
@@ -152,7 +135,6 @@ export default function OpportunitiesModule({
             />
             <Search className="absolute left-3 top-2.5 w-3.5 h-3.5 text-slate-400" />
           </div>
-        )}
       </div>
 
       {/* RENDER VIEW: JOBS OR INTERNSHIPS */}
@@ -246,98 +228,7 @@ export default function OpportunitiesModule({
         </div>
       )}
 
-      {/* RENDER VIEW: INTERACTIVE KANBAN TRACKER */}
-      {activeTab === "tracker" && (
-        <div className="flex-1 overflow-x-auto overflow-y-hidden pb-4 pr-1">
-          <div className="flex gap-4 h-full items-start min-w-[900px]">
-            {kanbanColumns.map((col) => {
-              // Gather opportunities or scholarships matching status
-              const columnJobs = opportunities.filter((o) => o.applied && o.status === col.id);
-              const columnGrants = scholarships.filter((s) => s.applied && col.id === "Applied" && s.status === "Pending");
 
-              // Adapt tailwind light classes for badges based on the ID
-              const columnStyles: Record<string, string> = {
-                "Applied": "bg-blue-50 text-blue-700 border-blue-200",
-                "Reviewing": "bg-amber-50 text-amber-700 border-amber-200",
-                "Interviewing": "bg-indigo-50 text-indigo-700 border-indigo-200",
-                "Offered": "bg-emerald-50 text-emerald-700 border-emerald-200",
-                "Rejected": "bg-red-50 text-red-700 border-red-200"
-              };
-
-              return (
-                <div key={col.id} className="w-72 bg-slate-50 border border-slate-200 p-4 rounded-2xl flex flex-col max-h-full h-full space-y-4 shadow-inner">
-                  {/* Column header */}
-                  <div className="flex justify-between items-center border-b border-slate-200 pb-2">
-                    <div className="flex items-center gap-2">
-                      <span className={`px-2 py-0.5 rounded text-[9px] font-mono font-bold border ${columnStyles[col.id] || "bg-slate-100 text-slate-700"}`}>
-                        {col.title}
-                      </span>
-                      <span className="text-slate-400 text-[10px] font-mono">({columnJobs.length + (col.id === "Applied" ? columnGrants.length : 0)})</span>
-                    </div>
-
-                    <span className="text-[10px] text-slate-400 font-bold cursor-pointer hover:text-slate-600">+</span>
-                  </div>
-
-                  {/* Cards inside column */}
-                  <div className="flex-1 overflow-y-auto space-y-3 pr-1">
-                    {columnJobs.map((o) => (
-                      <div
-                        key={o.id}
-                        onClick={() => {
-                          // Interactive status transition simulation
-                          const nextStatus: Record<string, string> = {
-                            "Applied": "Reviewing",
-                            "Reviewing": "Interviewing",
-                            "Interviewing": "Offered",
-                            "Offered": "Rejected",
-                            "Rejected": "Applied"
-                          };
-                          setOpportunities(
-                            opportunities.map((item) => {
-                              if (item.id === o.id) {
-                                  return { ...item, status: nextStatus[col.id] as any };
-                              }
-                              return item;
-                            })
-                          );
-                        }}
-                        className="bg-white border border-slate-200 p-3 rounded-xl space-y-2.5 cursor-pointer hover:border-indigo-400 transition-colors shadow-sm"
-                      >
-                        <div className="flex gap-2 items-center">
-                          <img src={o.logo} alt={o.company} className="w-7 h-7 rounded object-cover border border-slate-200" />
-                          <div className="min-w-0">
-                            <h5 className="text-slate-800 text-xs font-semibold leading-tight truncate">{o.title}</h5>
-                            <span className="text-slate-400 text-[9px] block leading-none">{o.company}</span>
-                          </div>
-                        </div>
-                        <div className="flex justify-between items-center text-[8px] font-mono pt-2 border-t border-slate-150 text-slate-400">
-                          <span>Sal: {o.stipendOrSalary.split(" - ")[0]}</span>
-                          <span className="text-indigo-600 font-semibold">Click to change state</span>
-                        </div>
-                      </div>
-                    ))}
-
-                    {col.id === "Applied" && columnGrants.map((s) => (
-                      <div key={s.id} className="bg-white border border-slate-200 p-3 rounded-xl space-y-2.5 shadow-sm">
-                        <span className="text-slate-400 text-[9px] font-mono">{s.provider}</span>
-                        <h5 className="text-slate-800 text-xs font-semibold leading-tight line-clamp-1">{s.title}</h5>
-                        <div className="flex justify-between items-center text-[8px] font-mono pt-2 border-t border-slate-150 text-emerald-600">
-                          <span>Grant: {s.amount}</span>
-                          <span className="bg-emerald-50 px-1.5 py-0.5 border border-emerald-200 rounded text-[8px] uppercase font-bold">PENDING REVIEW</span>
-                        </div>
-                      </div>
-                    ))}
-
-                    {columnJobs.length === 0 && (col.id !== "Applied" || columnGrants.length === 0) && (
-                      <p className="text-slate-400 text-center text-[10px] italic py-8 border border-dashed border-slate-200 bg-white/50 rounded-xl">Empty pipeline segment.</p>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
 
       {/* Apply Modal Drawer Simulator */}
       {showApplyModal && (

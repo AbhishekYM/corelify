@@ -194,6 +194,13 @@ export default function SupportModule({ tickets, setTickets, onAddNotification }
                   className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-colors"
                 />
                 <button
+                  onClick={() => {}}
+                  className="px-3 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-lg flex items-center justify-center transition-colors cursor-pointer border border-slate-200"
+                  title="Attach File"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                </button>
+                <button
                   onClick={() => handleSendReply(selectedTicket.id)}
                   className="px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold cursor-pointer shadow-sm"
                 >
@@ -283,6 +290,16 @@ export default function SupportModule({ tickets, setTickets, onAddNotification }
                   rows={3}
                   className="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-850 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-colors placeholder:text-slate-400"
                 />
+              </div>
+
+              <div className="space-y-1">
+                <span className="text-[10px] text-slate-400 font-mono uppercase block font-semibold">Attachments (Optional)</span>
+                <div className="w-full flex items-center justify-center border-2 border-dashed border-slate-200 rounded-lg p-4 hover:bg-slate-50 hover:border-slate-300 transition-colors cursor-pointer">
+                  <div className="text-center text-slate-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-1"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                    <span className="text-[10px] block">Click to upload files</span>
+                  </div>
+                </div>
               </div>
             </div>
 

@@ -158,12 +158,27 @@ export default function CommunityBlogsModule({ blogs, setBlogs }: CommunityBlogs
 
               <div className="flex items-center gap-2">
                 <button
+                  onClick={() => {}}
+                  className="p-2 rounded-lg border bg-white border-slate-200 text-slate-400 hover:text-slate-950 hover:bg-slate-50 transition-all cursor-pointer"
+                  title="Like Article"
+                >
+                  <ThumbsUp className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => {}}
+                  className="p-2 rounded-lg border bg-white border-slate-200 text-slate-400 hover:text-slate-950 hover:bg-slate-50 transition-all cursor-pointer"
+                  title="Share Article"
+                >
+                  <Send className="w-4 h-4" />
+                </button>
+                <button
                   onClick={() => handleToggleBookmark(selectedBlog.id)}
                   className={`p-2 rounded-lg border transition-all cursor-pointer ${
                     selectedBlog.bookmarked
                       ? "bg-indigo-50 border-indigo-300 text-indigo-700 shadow-sm"
                       : "bg-white border-slate-200 text-slate-400 hover:text-slate-950 hover:bg-slate-50"
                   }`}
+                  title="Bookmark"
                 >
                   <Bookmark className="w-4 h-4" />
                 </button>
