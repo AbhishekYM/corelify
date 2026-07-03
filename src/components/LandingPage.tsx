@@ -305,6 +305,7 @@ export default function LandingPage({ onEnterApp, onViewCaseStudy }: LandingPage
             <a href="#how-it-works" className="hover:text-indigo-600 transition-colors">How it Works</a>
             <a href="#pricing" className="hover:text-indigo-600 transition-colors">Pricing</a>
             <a href="#faq" className="hover:text-indigo-600 transition-colors">FAQ</a>
+            <span onClick={() => navigate("/blogs")} className="hover:text-indigo-600 transition-colors cursor-pointer">Blogs</span>
           </nav>
 
           <div className="flex items-center gap-3">
@@ -982,6 +983,7 @@ export default function LandingPage({ onEnterApp, onViewCaseStudy }: LandingPage
           <div className="space-y-3">
             <span className="font-semibold text-slate-800 block">Resources</span>
             <ul className="space-y-1.5 text-slate-500">
+              <li><span onClick={() => navigate("/blogs")} className="hover:text-indigo-600 transition-colors cursor-pointer">Ecosystem Blogs</span></li>
               <li><a href="#" className="hover:text-indigo-600 transition-colors">Ecosystem Sitemap</a></li>
               <li><a href="#" className="hover:text-indigo-600 transition-colors">Design Guidelines</a></li>
               <li><a href="#" className="hover:text-indigo-600 transition-colors">Support Tickets</a></li>
