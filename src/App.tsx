@@ -218,20 +218,6 @@ export default function App() {
             </motion.div>
           ) : null} />
 
-          <Route path="/:role/login" element={!isCaseStudyActive ? (
-            <motion.div key="auth-login" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.02 }} transition={{ duration: 0.3 }}>
-              <AuthFlow initialScreen="login" onAuthSuccess={handleAuthSuccess} />
-            </motion.div>
-          ) : null} />
-
-          <Route path="/:role/register" element={!isCaseStudyActive ? (
-            <motion.div key="auth-reg" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.02 }} transition={{ duration: 0.3 }}>
-              <AuthFlow initialScreen="signup" onAuthSuccess={handleAuthSuccess} />
-            </motion.div>
-          ) : null} />
-
-          <Route path="/:role/:view" element={!isCaseStudyActive ? <WorkspaceComponent userProfile={userProfile} courses={courses} liveClasses={liveClasses} mentors={mentors} mentorProducts={mentorProducts} opportunities={opportunities} workshops={workshops} scholarships={scholarships} blogs={blogs} notifications={notifications} setNotifications={setNotifications} tickets={tickets} handleAddNotification={handleAddNotification} handleEnrollCourse={handleEnrollCourse} setCourses={setCourses} setOpportunities={setOpportunities} setScholarships={setScholarships} setBlogs={setBlogs} setTickets={setTickets} setUserProfile={setUserProfile} setWorkshops={setWorkshops} /> : null} />
-
           <Route path="/admin/:tab?" element={!isCaseStudyActive ? (
             <motion.div key="admin" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }} className="h-screen w-screen overflow-hidden">
               {!currentAdmin ? (
@@ -253,6 +239,20 @@ export default function App() {
               )}
             </motion.div>
           ) : null} />
+
+          <Route path="/:role/login" element={!isCaseStudyActive ? (
+            <motion.div key="auth-login" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.02 }} transition={{ duration: 0.3 }}>
+              <AuthFlow initialScreen="login" onAuthSuccess={handleAuthSuccess} />
+            </motion.div>
+          ) : null} />
+
+          <Route path="/:role/register" element={!isCaseStudyActive ? (
+            <motion.div key="auth-reg" initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.02 }} transition={{ duration: 0.3 }}>
+              <AuthFlow initialScreen="signup" onAuthSuccess={handleAuthSuccess} />
+            </motion.div>
+          ) : null} />
+
+          <Route path="/:role/:view" element={!isCaseStudyActive ? <WorkspaceComponent userProfile={userProfile} courses={courses} liveClasses={liveClasses} mentors={mentors} mentorProducts={mentorProducts} opportunities={opportunities} workshops={workshops} scholarships={scholarships} blogs={blogs} notifications={notifications} setNotifications={setNotifications} tickets={tickets} handleAddNotification={handleAddNotification} handleEnrollCourse={handleEnrollCourse} setCourses={setCourses} setOpportunities={setOpportunities} setScholarships={setScholarships} setBlogs={setBlogs} setTickets={setTickets} setUserProfile={setUserProfile} setWorkshops={setWorkshops} /> : null} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
